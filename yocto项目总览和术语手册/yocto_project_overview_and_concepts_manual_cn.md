@@ -1,8 +1,13 @@
+<!-- TOC -->
+
+- [文档阅读：Yocto项目总览和术语手册第一章和第二章](#文档阅读yocto项目总览和术语手册第一章和第二章)
+- [第一章: 手册总览](#第一章-手册总览)
+
+<!-- /TOC -->
+
 # 文档阅读：Yocto项目总览和术语手册第一章和第二章    
 原手册链接：https://www.yoctoproject.org/docs/2.7/overview-manual/overview-manual.html
-
-- [文档阅读：Yocto项目总览和术语手册第一章和第二章](#文档阅读：Yocto项目总览和术语手册第一章和第二章)
-    - [第一章:　手册总览](##第一章:　手册总览)
+  
 
 这篇手册是对yocto项目的总览，同时对一些常用术语和概念做了解释，提供了更深入的相关链接．一共分为四个小章节
 
@@ -11,7 +16,7 @@
 3. Yocto开发环境
 4. Yocto概念解释
 
-## 第一章:　手册总览
+# 第一章: 手册总览
 
 很短的章节，主要告诉你这个手册其他三章的主要内容：
 
@@ -22,4 +27,5 @@
 
 不包含一步步具体的开发步骤，具体的有关步骤会在 Yocto Project Development Tasks Manual 这个手册中涉及，而Yocto Project Application Development and the Extensible Software Development Kit (eSDK) manual这个手册中包含了如何安装SDK来开发应用的具体步骤
 不包含具体的参考材料，系统变量等参考或者需要查找的信息这个手册中： Yocto Project Reference Manual. 而[Yocto Project Board Support Package (BSP) Developer's Guide](https://www.yoctoproject.org/docs/2.7/bsp-guide/bsp-guide.html)包含了BSP相关的参考信息，　简而言之，这两个是查表文档，哪天遇到不认识的变量了，就去这两个文档中搜索一下，能找到具体的解释．
-不包含一些和yocto不怎么相关的公开信息（public information),　比如说如何使用git就不会在这个手册中提及．
+不包含一些和yocto不怎么相关的公开信息（public information),　比如说如何使用git就不会在这个手册中提及．    
+
