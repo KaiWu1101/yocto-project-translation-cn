@@ -132,19 +132,19 @@
 + 对于OE-core部分的修改，请尽可能早的将其提交给上游，因为其他人很可能会遇到相同的问题。提交代码改动的方式请参考[向Yocto Project提交改动](https://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#how-to-submit-a-change)。现在可用的邮件地址及其说明，可参考Yocto Project参考文档中的[邮件列表](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#resources-mailinglist)章节。
 
 ## 2.2 准备构建主机
-本节介绍如何为[构建主机](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#hardware-build-system-term)搭建系统，以使用Yocto Project进行开发。推荐使用原生Linux机器，或者也可以在主机（Linux, Mac, Windows）上使用能利用[Docker容器](https://www.docker.com/)的[CROPS](https://git.yoctoproject.org/cgit/cgit.cgi/crops/about/)。
+本节介绍如何为[构建主机](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#hardware-build-system-term)搭建系统，以使用Yocto Project进行开发。推荐使用原生Linux机器，或者也可以在其他类型的主机（Linux, Mac, Windows）上使用[CROPS](https://git.yoctoproject.org/cgit/cgit.cgi/crops/about/)(利用了[Docker容器](https://www.docker.com/)技术)进行开发。
 
 > **注释**  
-> 不支持[Windows Subsystem for Linux(WSL)](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux)。Yocto Project不兼容WSL。
+> 你不能使用仅运行[Windows Subsystem for Linux(WSL)](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux)的机器作为你的构建主机。Yocto Project不兼容WSL。
 
-为了使用Yocto Project，构建主机准备好之后，根据具体需求，你还需要完成一些步骤。以下是关于如何为开发BSP和内核开发所需准备的参考信息：
+一旦你的构建主机完成设置能使用yocto项目了，根据具体需求，你还需要完成一些步骤。以下参考信息将告诉你进行BSP开发和内核开发要做哪些准备：
 
 + ***BSP开发***: 请参考Yocto Project BSP开发者手册中的[使用构建主机开发BSP](http://www.yoctoproject.org/docs/2.7/bsp-guide/bsp-guide.html#preparing-your-build-host-to-work-with-bsp-layers) 章节。
 
 + ***内核开发***: 请参考Yocto Project Linux内核开发手册中的[使用构建主机开发Linux内核](http://www.yoctoproject.org/docs/2.7/kernel-dev/kernel-dev.html#preparing-the-build-host-to-work-on-the-kernel)章节。
 
 ### 2.2.1 准备原生Linux主机
-完成以下步骤为Yocto Project构建主机准备原生Linux机器：
+请按照以下步骤准备你的Linux机器作为Yocto项目的构建主机：
 
 1. ***使用一个被支持的Linux版本***: 你应当有一个基于Linux的主机系统。你可以选用Fedora, OpenSUSE, Debian, Ubuntu, 或者CentOS，他们经常被验证于Yocto Project，官方支持。参考Yocto Project参考文档的[被支持的Linux发行版](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#detailed-supported-distros)以及[发行版支持](https://wiki.yoctoproject.org/wiki/Distribution_Support)，你可以了解到被验证的发行版本以及状态。
 
