@@ -68,21 +68,21 @@
 
 5. ***搭建应用开发机器***: 如前文所说，应用开发者在已有软件栈上开发应用。针对搭建应用开发机器有以下建议做法:
 
-+ 使用包含软件栈并且已构建好的工具链，然后在软件栈上开发应用。这个方法适用于少量且相互之间相对独立的应用开发。
+   + 使用包含软件栈并且已构建好的工具链，然后在软件栈上开发应用。这个方法适用于少量且相互之间相对独立的应用开发。
 
-+ 保持更新你的交叉开发工具链。你可以通过下载新的工具链或者通过opkg包管理系统来更新你已有的工具链。具体方案依赖于本地策略。
+   + 保持更新你的交叉开发工具链。你可以通过下载新的工具链或者通过opkg包管理系统来更新你已有的工具链。具体方案依赖于本地策略。
 
-+ 在本地不同路径安装多份工具链以开发不同版本的应用
+   + 在本地不同路径安装多份工具链以开发不同版本的应用
 
 6. ***搭建核心开发机器***: 如前文所说，核心开发者开发操作系统内容。搭建开发image的机器有以下最佳实践:
 
-+ 本地需要有[OpenEmbedded构建系统](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#build-system-term)，这样开发者可以在本地构建软件栈
+   + 本地需要有[OpenEmbedded构建系统](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#build-system-term)，这样开发者可以在本地构建软件栈
 
-+ 尽量不要改动核心系统，而是在核心系统上创建layer以完成你的工作。这样可以让你的系统在更新核心系统或者板级支持包（BSP）时拥有更高的可移植性。
+   + 尽量不要改动核心系统，而是在核心系统上创建layer以完成你的工作。这样可以让你的系统在更新核心系统或者板级支持包（BSP）时拥有更高的可移植性。
 
-+ 将项目中的layer和策略配置共享给其他开发者。
+   + 将项目中的layer和策略配置共享给其他开发者。
 
-1. ***搭建Autobuilder***: Autobuilders往往是开发中的核心部分。它获取各个开发者的改动，并进行集中测试。基于自动化构建和测试结果，你可以决定是否发布你的产品。Autobuilder还允许对软件组件,回归识别和追踪进行“持续集成”式的测试。
+7. ***搭建Autobuilder***: Autobuilders往往是开发中的核心部分。它获取各个开发者的改动，并进行集中测试。基于自动化构建和测试结果，你可以决定是否发布你的产品。Autobuilder还允许对软件组件,回归识别和追踪进行“持续集成”式的测试。
 
     参考["Yocto Project Autobuilder"](http://autobuilder.yoctoproject.org/)以阅读更多关于Autobuilders和buildbot的相关信息。Yocto Project团队使用Yocto Project Autobuilders测试项目的整体健康状况。
 
@@ -104,9 +104,9 @@
 
    + 允许对构建过程和时间进行规划安排，以更有效地利用（硬件）资源
 
-2. ***搭建测试机器***: 使用少数共享的、高性能的系统来进行测试。开发可以使用这些机器进行更多测试，同时仍可以使用自己的开发环境进行本地开发。
+8. ***搭建测试机器***: 使用少数共享的、高性能的系统来进行测试。开发可以使用这些机器进行更多测试，同时仍可以使用自己的开发环境进行本地开发。
 
-3. ***将策略和流程文档化***: Yocto Project使用层级结构和pull model。脚本可以和用来创建并发送Pull Request(例如 create-pull-request 和 send-pull-request). Pull model和其他开源项目一样，各个维护者只需要对项目特定部分负责，最终的合并(合并到主分支)由某个维护者进行处理。
+9. ***将策略和流程文档化***: Yocto Project使用层级结构和pull model。脚本可以和用来创建并发送Pull Request(例如 create-pull-request 和 send-pull-request). Pull model和其他开源项目一样，各个维护者只需要对项目特定部分负责，最终的合并(合并到主分支)由某个维护者进行处理。
 
     > **注释**  
     > 你也可以使用push model（译者注：原文的collective不清楚是什么特性），gitolite软件同时支持push model和pull model。
@@ -115,27 +115,27 @@
 
     如果你发现必须改动核心层的代码时，尽快与社区分享是很值得的。当你发现有需要改动的地方时，可能社区的其他人正需要这个改动。
 
-4.    ***开发环境总结***: 除开上述步骤以外，Yocto Project开发环境还有以下最佳实践：
+10. ***开发环境总结***: 除开上述步骤以外，Yocto Project开发环境还有以下最佳实践：
 
-+ 使用Git作为代码控制系统
+    + 使用Git作为代码控制系统
 
-+ 在Layer中维护你的元数据。阅读Yocto Project概述及概念手册中的[Yocto Project Layer模型](http://www.yoctoproject.org/docs/2.7/overview-manual/overview-manual.html#the-yocto-project-layer-model)章节，以及[理解并创建Layer](https://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#understanding-and-creating-layers)章节以了解更多关于layer的信息。
+    + 在Layer中维护你的元数据。阅读Yocto Project概述及概念手册中的[Yocto Project Layer模型](http://www.yoctoproject.org/docs/2.7/overview-manual/overview-manual.html#the-yocto-project-layer-model)章节，以及[理解并创建Layer](https://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#understanding-and-creating-layers)章节以了解更多关于layer的信息。
 
-+ 使用不同的Git仓库分离项目目元数据和代码，yocto的源代码就是按照功能分成了一个个单独的仓库。阅读Yocto项目总览和术语手册中的[Yocto Project代码仓库](http://www.yoctoproject.org/docs/2.7/overview-manual/overview-manual.html#yocto-project-repositories)章节以了解更多关于这些仓库的信息。阅读[定位Yocto Project代码文件](https://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#locating-yocto-project-source-files)章节以了解如何在本地创建相关的Yocto Project Git仓库。
+    + 使用不同的Git仓库分离项目目元数据和代码，yocto的源代码就是按照功能分成了一个个单独的仓库。阅读Yocto项目总览和术语手册中的[Yocto Project代码仓库](http://www.yoctoproject.org/docs/2.7/overview-manual/overview-manual.html#yocto-project-repositories)章节以了解更多关于这些仓库的信息。阅读[定位Yocto Project代码文件](https://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#locating-yocto-project-source-files)章节以了解如何在本地创建相关的Yocto Project Git仓库。
 
-+ 在需要的地方创建[shared state cache缓存目录](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#var-SSTATE_DIR)。例如，在一个组织的开发系统上创建sstate cache缓存目录，然后让所有的开发者共享这个目录。
+    + 在需要的地方创建[shared state cache缓存目录](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#var-SSTATE_DIR)。例如，在一个组织的开发系统上创建sstate cache缓存目录，然后让所有的开发者共享这个目录。
 
-+ 搭建Autobuilder，并使用它来将代码获取到本地目录，构建时向sstate cache缓存目录填充共享数据。
+    + 搭建Autobuilder，并使用它来将代码获取到本地目录，构建时向sstate cache缓存目录填充共享数据。
 
-+ Yocto Project社区鼓励你发送补丁以修复bug或者增加功能。如果你想提交补丁，请遵循提交指南[向Yocto Project提交改动](https://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#how-to-submit-a-change)以编辑良好的提交信息。
+    + Yocto Project社区鼓励你发送补丁以修复bug或者增加功能。如果你想提交补丁，请遵循提交指南[向Yocto Project提交改动](https://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#how-to-submit-a-change)以编辑良好的提交信息。
 
-+ 对于OE-core部分的修改，请尽可能早的将其提交给上游，因为其他人很可能会遇到相同的问题。提交代码改动的方式请参考[向Yocto Project提交改动](https://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#how-to-submit-a-change)。现在可用的邮件地址及其说明，可参考Yocto Project参考文档中的[邮件列表](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#resources-mailinglist)章节。
+    + 对于OE-core部分的修改，请尽可能早的将其提交给上游，因为其他人很可能会遇到相同的问题。提交代码改动的方式请参考[向Yocto Project提交改动](https://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#how-to-submit-a-change)。现在可用的邮件地址及其说明，可参考Yocto Project参考文档中的[邮件列表](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#resources-mailinglist)章节。
 
 ## 2.2 准备构建主机
 本节介绍如何为[构建主机](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#hardware-build-system-term)搭建系统，以使用Yocto Project进行开发。推荐使用原生Linux机器，或者也可以在其他类型的主机（Linux, Mac, Windows）上使用[CROPS](https://git.yoctoproject.org/cgit/cgit.cgi/crops/about/)(利用了[Docker容器](https://www.docker.com/)技术)进行开发。
 
 > **注释**  
-> 你不能使用仅运行[Windows Subsystem for Linux(WSL)](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux)的机器作为你的构建主机。Yocto Project不兼容WSL。
+> 不支持在[Windows Subsystem for Linux(WSL)](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux)中使用Yocto Project。Yocto Project不兼容WSL。
 
 一旦你的构建主机完成设置能使用yocto项目了，根据具体需求，你还需要完成一些步骤。以下参考信息将告诉你进行BSP开发和内核开发要做哪些准备：
 
@@ -146,19 +146,19 @@
 ### 2.2.1 准备原生Linux主机
 请按照以下步骤准备你的Linux机器作为Yocto项目的构建主机：
 
-1. ***使用一个被支持的Linux版本***: 你应当有一个基于Linux的主机系统。你可以选用Fedora, OpenSUSE, Debian, Ubuntu, 或者CentOS，他们经常被验证于Yocto Project，官方支持。参考Yocto Project参考文档的[被支持的Linux发行版](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#detailed-supported-distros)以及[发行版支持](https://wiki.yoctoproject.org/wiki/Distribution_Support)，你可以了解到被验证的发行版本以及状态。
+1. ***使用一个被支持的Linux版本***: 你应当有一个基于Linux的主机系统。你可以选用Fedora, OpenSUSE, Debian, Ubuntu, 或者CentOS，这些都是Yocto反复测试并且官方支持的发行版。参考Yocto Project参考文档的[被支持的Linux发行版](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#detailed-supported-distros)以及[发行版支持](https://wiki.yoctoproject.org/wiki/Distribution_Support)，你可以了解到这些被Yocto验证的Linux发行版的受支持状况。
 
 2. ***足够的空间***: 系统至少需要50GB的空间以构建镜像。
 
-3. ***工具版本最低需求***: OpenEmbedded构建系统需要满足以下版本要求才能运行：
+3. ***满足最低的版本需求***: 建主机需要含有以下版本的软件，OpenEmbedded构建系统才能在上面正常运行：
 
-+ Git 1.8.3.1 或以上
+   + Git 1.8.3.1 或以上
 
-+ tar 1.27 或以上
+   + tar 1.27 或以上
 
-+ Python 3.4.0 或以上
+   + Python 3.4.0 或以上
 
-如果主机不满足以上任一版本需求，你需要一些步骤以继续使用Yocto Project。请参考《Yocto Project参考手册》的["Required Git, tar, and Python Versions"](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#required-git-tar-and-python-versions)。
+    如果主机上这些软件中任何一个不满足以上的版本需求，你需要一些步骤以继续使用Yocto Project。请参考《Yocto Project参考手册》的["Required Git, tar, and Python Versions"](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#required-git-tar-and-python-versions)。
 
 4. ***安装开发主机包***: 根据需求的不同，需要的开发主机包也不一样。总体来说，如果你想覆盖所有案例，包的总量会很大。  
 所需的包列表，请参考《Yocto Project参考手册》["Required Packages for the Build Host"](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#required-packages-for-the-build-host)
@@ -174,35 +174,35 @@
 
 2. ***选择哪些需要安装***: 如果构建主机满足系统要求，你需要安装Docker CE。如果主机不满足需求（Windows10之前的版本或者Windows10家庭版），你需要安装的则是Docker Toolbox。
 
-3. ***浏览安装页面***: 点击使用于主机原生系统的Docer版本。[Docker安装页面](https://docs.docker.com/install/#supported-platforms)
+3. ***浏览安装页面***: 浏览[Docker安装页面](https://docs.docker.com/install/#supported-platforms)，找到与你的操作系统对应的Docker软件，点击链接进行下载。
 
-4. ***安装软件***: 一旦你了解了所有前提需求，你可以下载并安装对应软件。根据对应机器和软件类型进行下载安装：
+4. ***安装软件***: 一旦你了解了所有前提需求，你可以下载并安装对应软件。根据对应机器和所需的软件类型进行下载安装：
 
-+ [Docker CE for Windows](https://docs.docker.com/docker-for-windows/install/#install-docker-for-windows-desktop-app)
+   + [Docker CE for Windows](https://docs.docker.com/docker-for-windows/install/#install-docker-for-windows-desktop-app)
 
-+ [Docker CE for Macs](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac)
+   + [Docker CE for Macs](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac)
 
-+ [Docker Toolbox for Windows](https://docs.docker.com/toolbox/toolbox_install_windows/) (不符要求的Windows版本)
+   + [Docker Toolbox for Windows](https://docs.docker.com/toolbox/toolbox_install_windows/) (不符要求的Windows版本)
 
-+ [Docker Toolbox for MacOS](https://docs.docker.com/toolbox/toolbox_install_mac/) (不符要求的Mac版本)
+   + [Docker Toolbox for MacOS](https://docs.docker.com/toolbox/toolbox_install_mac/) (不符要求的Mac版本)
 
-+ [Docker CE for CentOS](https://docs.docker.com/install/linux/docker-ce/centos/)
+   + [Docker CE for CentOS](https://docs.docker.com/install/linux/docker-ce/centos/)
 
-+ [Docker CE for Debian](https://docs.docker.com/install/linux/docker-ce/debian/)
+   + [Docker CE for Debian](https://docs.docker.com/install/linux/docker-ce/debian/)
 
-+ [Docker CE for Fedora](https://docs.docker.com/install/linux/docker-ce/fedora/)
+   + [Docker CE for Fedora](https://docs.docker.com/install/linux/docker-ce/fedora/)
 
-+ [Docker CE for Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+   + [Docker CE for Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 
 5. ***（可选）了解Docker***: 如果你还不甚了解Docker和容器概念，你可以在这里学习更多 - https://docs.docker.com/get-started/.
 
 6. ***启动Docker或者Docker Toolbox***: 你可以启动Docker或者Docker Toolbox，开发主机上会有一个终端出现。
 
-7. ***启动容器，使用Yocto Project***: 访问https://github.com/crops/docker-win-mac-docs/wiki 以了解对应主机系统(例如Linux, Mac, 或 Windows)更多信息。
+7. ***启动容器，使用Yocto Project***: 访问https://github.com/crops/docker-win-mac-docs/wiki 以了解如何在对应主机系统上(例如Linux, Mac, 或 Windows)配置你的Docker容器来使用Yocto项目。
 
-完成这些步骤后，你就有了Poky, Extensible SDK, Toaster容器。你可以点击链接以了解如果使用这些容器。
+完成这些步骤后，你就有了Poky, Extensible SDK, Toaster容器。你可以点击本文中相应的链接以了解如何使用这些容器。
 
-当你启动容器后，你就好像是在原生Linux机器上开发一样。
+当你启动容器后，你就好像是在原生Linux机器上开发一样。关于如何使用这些容器，请参考： 
 [Poky容器](https://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#cloning-the-poky-repository)
 [Extensible SDK容器](http://www.yoctoproject.org/docs/2.7/sdk-manual/sdk-manual.html#sdk-extensible)
 [Toaster容器](http://www.yoctoproject.org/docs/2.7/toaster-manual/toaster-manual.html#toaster-manual-setup-and-use)
