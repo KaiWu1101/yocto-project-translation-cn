@@ -6,6 +6,11 @@
   - [2.2 准备构建主机](#22-准备构建主机)
     - [2.2.1 准备原生Linux主机](#221-准备原生linux主机)
     - [2.2.2 使用CROss PlatformS (CROPS)](#222-使用cross-platforms-crops)
+  - [2.3 定位Yocto Project源文件](#23-定位yocto-project源文件)
+    - [2.3.1 访问代码仓库](#231-访问代码仓库)
+    - [2.3.2 访问发布索引](#232-访问发布索引)
+    - [2.3.3 使用下载页面](#233-使用下载页面)
+    - [2.3.4 访问Nightly Builds（每日构建）](#234-访问nightly-builds每日构建)
 
 # Chapter 1 The Yocto Project 开发任务手册
 
@@ -207,3 +212,75 @@
 [Extensible SDK容器](http://www.yoctoproject.org/docs/2.7/sdk-manual/sdk-manual.html#sdk-extensible)
 [Toaster容器](http://www.yoctoproject.org/docs/2.7/toaster-manual/toaster-manual.html#toaster-manual-setup-and-use)
 
+## 2.3 定位Yocto Project源文件
+本节为你展示如果定位并访问Yocto Project源文件。你将创建并使用这些本地文件。
+
+> **Notes**  
+> + Git相关信息请阅读《Yocto Project概述及概念手册》["Git"](http://www.yoctoproject.org/docs/2.7/overview-manual/overview-manual.html#git)章节 
+> + Yocto Project代码仓库信息请阅读《Yocto Project概述及概念手册》["Yocto Project Source Repositories"](http://www.yoctoproject.org/docs/2.7/overview-manual/overview-manual.html#yocto-project-repositories)
+
+### 2.3.1 访问代码仓库
+我们推荐使用上游Yocto Project代码仓库，来进行Yocto Project发布的获取和使用。你可以在[http://git.yoctoproject.org](http://git.yoctoproject.org)浏览Yocto Project代码仓库。需要特别说明的是，你可以在[http://git.yoctoproject.org/cgit/cgit.cgi/poky/](http://git.yoctoproject.org/cgit/cgit.cgi/poky/)找到poky仓库。
+
+使用以下步骤定位最新的上游poky Git仓库拷贝：
+
+1. ***访问仓库***: 打开浏览器输入[http://git.yoctoproject.org](http://git.yoctoproject.org)，访问Yocto Project代码仓库的图形化界面。
+
+2. ***选择仓库***: 点击你感兴趣的仓库（例如poky）。
+
+3. ***找到用以克隆的链接***: 在页面底部有用来克隆的仓库地址（例如[http://git.yoctoproject.org/poky](http://git.yoctoproject.org/poky)）。
+
+> **注释**  
+> 请参考[克隆Poky仓库](https://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#cloning-the-poky-repository)了解更多关于克隆仓库的信息。
+
+### 2.3.2 访问发布索引
+Yocto Project维护发布索引列表，它包含对Yocto Project有贡献的相关文件。与Git仓库不同，这些文件是某个组件快照的tar包。
+
+> **提示**  
+> 推荐访问Yocto Project组件的方式仍然是使用Git克隆上游仓库，并以本地克隆好的仓库进行工作。本节所介绍步骤，是为了你想用tar包的时候有所参考。
+
+参考以下步骤定位并下载一个特定的tar包：
+
+1. ***访问发布索引***: 打开浏览器输入http://downloads.yoctoproject.org/releases 访问发布索引列表，包括bitbake，sato等。
+
+> **注释**  
+> Yocto目录包含发布的Poky tar包的完整列表，发布索引里的poky目录是给非常早期发布使用的，存在的目的仅仅是为了追溯完整性。
+
+1. ***选择组件***: 点击你感兴趣的发布组件（例如yocto）。
+
+2. ***找到Tar包***: 向下展开，找到相关tar包。例如，点击yocto-2.7,查看Yocto Project 版本2.7发布相关的文件（例如poky-warrior-21.0.0.tar.bz2，它是发布的Poky tar包）。
+
+3. ***下载Tar包***: 点击tar包，下载组件的快照。
+
+### 2.3.3 使用下载页面
+Yocto Project提供下载页面，你可以定位并下载Yocto Project发布的tar包。与Git仓库不同的是，这些文件代表的是快照tar包，和[2.3.2 访问发布索引](#232-访问发布索引)介绍的类似。
+
+> **提示**  
+> 推荐访问Yocto Project组件的方式仍然是使用Git克隆上游仓库，并以本地克隆好的仓库进行工作。本节所介绍步骤，是为了你想用tar包的时候有所参考。
+
+1. ***访问Yocto Project页面***: 使用浏览器访问[http://www.yoctoproject.org/](http://www.yoctoproject.org/)
+
+2. ***找到下载区域***: 在页面顶部导航栏，在“SOFTWARE”下拉菜单中选择“DOWNLOAD”项。
+
+3. ***选择Yocto Project发布***: 使用"RELEASE"旁边的目录菜单选择最近的或者早期版本的Yocto Project发布（例如warrior, thud等等）。
+
+> **提示**  
+> 浏览[Wiki页面](https://wiki.yoctoproject.org/wiki/Releases)找到Yocto Project发布和版本号的对照列表。
+你可以使用"RELEASE ARCHIVE"链接展示所有Yocto Project发布的菜单。
+
+1. ***下载工具或者BSP***: 从“DOWNLOADS”页面，你也可以下载到工具或者BSP，你只需要向下滚动页面，寻找你想要的项目。
+
+### 2.3.4 访问Nightly Builds（每日构建）
+Yocto Project在https://autobuilder.yocto.io//pub/nightly/ 维护了Nightly Builds，包含tar包形式的发布。这些构建包括Yocto Project发布（"poky"），工具链，和所支持机器的构建。
+
+如果你希望访问一个特定的Yocto Project组件的每日构建，使用以下步骤：
+
+1. ***定位Nightly Build索引***: 打开浏览器，访问[https://autobuilder.yocto.io//pub/nightly/](https://autobuilder.yocto.io//pub/nightly/) （译者注：此地址暂时404）。
+
+2. ***选择日期***: 选择日期。如果你想要最新构建，点击“CURRENT”。
+
+3. ***选择Build***: 选择类型。比如你在搜寻的是最近的工具链，那么就选择“toolchain”。
+
+4. ***找到Tar包***: 向下浏览，找到相关tar包。
+
+5. ***下载Tar包***: 点击tar包，下载组件的快照。
