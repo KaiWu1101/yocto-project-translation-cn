@@ -2,7 +2,10 @@
 
 - [文档阅读：Yocto项目总览和术语手册第一章和第二章](#文档阅读yocto项目总览和术语手册第一章和第二章)
 - [第一章: 手册总览](#第一章-手册总览)
-
+- [第二章: yocto介绍](#第二章-yocto介绍)    
+  - [2.1.1 特点](2.1.1-特点)    
+  - [2.1.2 挑战](2.1.2-挑战)
+- [2.2 yocto的分层模型（layer model)](2.2-yocto的分层模)
 <!-- /TOC -->
 
 # 文档阅读：Yocto项目总览和术语手册第一章和第二章    
@@ -30,7 +33,7 @@
 不包含具体的参考材料，系统变量等参考或者需要查找的信息这个手册中： [Yocto Project Reference Manual](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html). 而[Yocto Project Board Support Package (BSP) Developer's Guide](https://www.yoctoproject.org/docs/2.7/bsp-guide/bsp-guide.html)包含了BSP相关的参考信息，　简而言之，这两个是查表文档，哪天遇到不认识的变量了，就去这两个文档中搜索一下，能找到具体的解释．
 不包含诸如如何使用Git这样不应由Yocto文档详细说明的信息，你应该去查阅相应的官方文档或者通过搜索引擎查找资料。    
 
-# 第二章:　yocto介绍
+# 第二章: yocto介绍
 
 这一章分七个小节
 
