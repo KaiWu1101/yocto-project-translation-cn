@@ -39,17 +39,17 @@
 这一章分七个小节
 
 ## 2.1 什么是yocto
-这个在这里不重复介绍了，在(吴雨儿：怎么开始学习yocto?)<https://zhuanlan.zhihu.com/p/67453665>一文中我已经提及了．你也可以查看Drew Moseley的<文章>(https://www.embedded.com/why-the-yocto-project-for-my-iot-project/)或者观看这个视频(https://www.youtube.com/watch?v=utZpKM7i5Z4)来了解yocto。
+这个在这里不重复介绍了，在[吴雨儿：怎么开始学习yocto?](https://zhuanlan.zhihu.com/p/67453665)一文中我已经提及了．你也可以查看Drew Moseley的[文章](https://www.embedded.com/why-the-yocto-project-for-my-iot-project/)或者观看[这个视频](https://www.youtube.com/watch?v=utZpKM7i5Z4)来了解yocto。
 这个小节还介绍了yocto的特点和你学习yocto将面临的困难．
 
 ### 2.1.1 特点
 - **yocto在行业被普遍接受**: 很多公司企业都使用了yocto作为生产工具，也有很庞大的社区支持
 - **yocto支持很多架构**: 比如ARM, MIPS, AMD, PPC等．大多数ODM(原设计生产厂商)，OSV(操作系统零售商)和芯片提供商会制作并提供硬件的BSP包，你也可以为自己的硬件制作BSP包, yocto还支持通过QEMU仿真大多数的硬件设备。
-- **镜像及代码地移植非常容易**: Yocto Project的输出可以在不移动到新的开发环境情况下，很容易地就能迁移到新的架构上(不用为了新的架构搭建新的开发环境)。如果你使 yocto制作了自己的镜像(image)和应用，但是你不能长期为此提供维护和支持的话，诸如Wind River，Mentor Graphics，Timesys，和ENEA这样的商业Linux提供商可以接手并提供后续支持。。(这一段说实话没看太懂，应该是说这些厂商能帮你维护你的yocto开发成果，如果yocto升级的话，他们也能帮你做一些改动来适应）原文如下: Yocto Project output can easily move between architectures without moving to new development environments. Additionally, if you have used the Yocto Project to create an image or application and you find yourself not able to support it, commercial Linux vendors such as Wind River, Mentor Graphics, Timesys, and ENEA could take it and provide ongoing support. These vendors have offerings that are built using the Yocto Project.
+- **镜像及代码地移植非常容易**: Yocto Project的输出可以在不移动到新的开发环境情况下，很容易地就能迁移到新的架构上(不用为了新的架构搭建新的开发环境)。如果你使 yocto制作了自己的镜像(image)和应用，但是你不能长期为此提供维护和支持的话，诸如Wind River，Mentor Graphics，Timesys，和ENEA这样的商业Linux提供商可以接手并提供后续支持。
 - **灵活性**: 企业有很多种方法来使用yocto, 比如说可以制作一个linux镜像作为基础(base), 然后把这个镜像给多个不同的部门，让他们在此基础上根据部门产品开发自己的应用，作为各自的产品。通俗一点说就是给几个人一个一样的毛坯房，但是房子里装什么由他们自己决定。
 - **适合资源受限的嵌入式或者IOT设备**: 不同于完整的发行版(比如说ubuntu), yocto能让你自定义你的镜像，你可以决定放哪些功能或者模块到你的镜像中，比如说很多设备没有显示屏幕，那么像X11, GTK+, Qt或者SDL之类的组件就不需要安装。最终的镜像会足够小，而且没有多余的功能。
-- **全面的toolchain支持**: yocto已有的toolchain对大部分生产环境已经适用了， 如果你想自定义自己的toolchain,在yocto中也能通过更改平台参数来自定义你的toolchain,你也可以使用第三方工具链.
-这个没看懂， 原文如下: Mechanism Rules Over Policy:Focusing on mechanism rather than policy ensures that you are free to set policies based on the needs of your design instead of adopting decisions enforced by some system software provider.
+- **全面的工具链支持**: yocto已有的工具链对大部分生产环境已经适用了， 如果你想自定义自己的工具链,在yocto中也能通过更改平台参数来自定义你的工具链,你也可以使用第三方工具链.
+- **Mechanism Rules Over Policy**: (译者注: 这个没看懂， 原文如下Focusing on mechanism rather than policy ensures that you are free to set policies based on the needs of your design instead of adopting decisions enforced by some system software provider)
 - **使用分层模型(layer model)**: Yocto Project分层架构将相关联功能分组，放置到不同的bundle中，你可以根据项目需求增加层(Layer)这样做的好处是降低项目复杂性和重复性，方便系统扩展，定制化，保持功能有组织地管理。这里的层更多的是并列关系，很少有上下层的关系，不好翻译这个layer, 因为我们看到 层 的时候就会默认有级别关系，上下或者包含的关系。。
 - **支持局部构建（partial builds)**：你能单独构建某个包（package)或者层(layer)。 yocto 使用[shared-state cache](https://www.yoctoproject.org/docs/2.7/overview-manual/overview-manual.html#shared-state-cache)方法来实现这一点，（在build目录下有个sstate-control的目录）
 - **严格的发布计划**: 大版本发布每六个月一次，分别是每年的四月和十月。
@@ -58,7 +58,7 @@
 - **许可证清单**: yocto能提供所有构建所需包的[许可证清单](http://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#maintaining-open-source-license-compliance-during-your-products-lifecycle)，能让你追踪你项目中用到的开源许可证。 简单来说就是让你知道， 你都使用了哪些包，都是哪来的，会不会让你惹上官司)
 ### 2.1.2 挑战
 - **陡峭的学习曲线** Yocto Project拥有陡峭的学习曲线，相似的任务可以有诸多方式完成。有的时候，既定任务会有很多方式去完成，这可能会让你有选择困难症。
-- **当你项目出了问题你想弄清楚怎么修改，可能要花费你很多时间和努力**: 这里先建议阅读<yocto避坑指南>(https://www.yoctoproject.org/docs/what-i-wish-id-known/) 和 <开始使用yocto项目前的准备工作>(http://www.yoctoproject.org/docs/transitioning-to-a-custom-environment/)
+- **当你项目出了问题你想弄清楚怎么修改，可能要花费你很多时间和努力**: 这里先建议阅读[yocto避坑指南](https://www.yoctoproject.org/docs/what-i-wish-id-known/) 和 [开始使用yocto项目前的准备工作](http://www.yoctoproject.org/docs/transitioning-to-a-custom-environment/)
 - **项目的工作流程可能很让你困惑**: 如果你对传统的桌面或者服务器软件开发很熟悉的话，[Yocto项目的工作流程](https://www.yoctoproject.org/docs/2.7/overview-manual/overview-manual.html#overview-development-environment)可能会让你感觉很迷惑。在桌面开发环境中存在一些能够让你很轻易的下载和安装新包的方法(使用apt-get等），使用工具直接安装远端已经编译好的包。而在yocto中你必须改动你的配置并且重新构建来添加应用或者包。
 - **交叉构建环境的不熟悉**: 有时候开发要在目标上运行的代码时，在实际目标上完成编译，执行和测试比在开发主机上运行BitBake构建然后将二进制文件部署到目标上要快得多。为此yocto也为目标板提供了开发工具，但是你也需要把你在目标板上的修改迁移回Yocto的构建环境中(就是你每次都用bitbake来构建镜像然后部署在开发板上进行测试，因此你可能会在你的开发板上进行开发测试，为此yocto也提供了一些开发工具，但是记得把你在开发板上的临时的开发进度整合到yocto项目中)。 Yocto提供了一种折中的方法，当你在开发机上对开发机上的项目做出修改时，你可以只把你更新的包后者软件部署到你的目标板上。    
 Yocto的[OE构建系统](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#build-system-term)能为你生成标准格式(也就是RPM, DEB, IPK和TAR)的包文件。你可以通过在目标板上使用rmp或者ipk把这些包文件部署到你目标板的操作系统中。
@@ -72,5 +72,5 @@ Yocto的[OE构建系统](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-man
 
 > **注释**  
 > - 尽量使用来自供应商的BSP layer    
-> - 熟悉<Yocto Project curated layer index>(https://caffelli-staging.yoctoproject.org/software-overview/layers/) 和<OpenEmbedded layer index>(http://layers.openembedded.org/layerindex/branch/master/layers/)。 后者包含更多Layer，但并不是都经过了验证。    
-> - <Yocto Project Compatible>(http://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#making-sure-your-layer-is-compatible-with-yocto-project) 简单来说就是让你的layer通过一个脚本测试，然后填写一个表格,之后yocto授权你使用Yocto project Compatible的Logo来推广你的产品.这个测试一般是作用在BSP layer。    
+> - 熟悉[Yocto Project curated layer index](https://caffelli-staging.yoctoproject.org/software-overview/layers/) 和[OpenEmbedded layer index](http://layers.openembedded.org/layerindex/branch/master/layers/)。 后者包含更多Layer，但并不是都经过了验证。    
+> - [Yocto Project Compatible](http://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#making-sure-your-layer-is-compatible-with-yocto-project) 简单来说就是让你的layer通过一个脚本测试，然后填写一个表格,之后yocto授权你使用Yocto project Compatible的Logo来推广你的产品.这个测试一般是作用在BSP layer。    
