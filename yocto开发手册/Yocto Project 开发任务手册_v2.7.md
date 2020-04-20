@@ -11,6 +11,10 @@
     - [2.3.2 访问发布索引](#232-%e8%ae%bf%e9%97%ae%e5%8f%91%e5%b8%83%e7%b4%a2%e5%bc%95)
     - [2.3.3 使用下载页面](#233-%e4%bd%bf%e7%94%a8%e4%b8%8b%e8%bd%bd%e9%a1%b5%e9%9d%a2)
     - [2.3.4 访问Nightly Builds（每日构建）](#234-%e8%ae%bf%e9%97%aenightly-builds%e6%af%8f%e6%97%a5%e6%9e%84%e5%bb%ba)
+  - [2.4 克隆并切换到分支](#24-%e5%85%8b%e9%9a%86%e5%b9%b6%e5%88%87%e6%8d%a2%e5%88%b0%e5%88%86%e6%94%af)
+    - [2.4.1 克隆Poky仓库](#241-%e5%85%8b%e9%9a%86poky%e4%bb%93%e5%ba%93)
+    - [2.4.2 切换Poky分支](#242-%e5%88%87%e6%8d%a2poky%e5%88%86%e6%94%af)
+    - [2.4.3 根据Tag切换Tag分支](#243-%e6%a0%b9%e6%8d%aetag%e5%88%87%e6%8d%a2tag%e5%88%86%e6%94%af)
 
 # Chapter 1 The Yocto Project 开发任务手册
 
@@ -284,3 +288,132 @@ Yocto Project在[https://autobuilder.yocto.io//pub/nightly/](https://autobuilder
 4. ***找到Tar包***: 向下浏览，找到相关tar包。
 
 5. ***下载Tar包***: 点击tar包，下载组件的快照。
+
+## 2.4 克隆并切换到分支
+使用Yocto Project进行开发，你需要在本地用来开发的机器上，选择某个版本的Yocto Project发布并安装。本地安装的一系列文件，会如[Source Directory](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#source-directory)章节所介绍的结构一样，存放于你本地。
+
+创建Source Directory的推荐方式是，使用Git从上游poky仓库克隆一份本地拷贝，工作在上游仓库的克隆拷贝允许你修改Yocto Project代码的同时，向Yocto Project贡献你的代码，当然，你也可以仅仅工作在最新软件的开发分支上。因为Git可以访问到上有仓库的完整改动历史（开发分支或是标签），然后你在它的本地克隆上进行工作。
+
+### 2.4.1 克隆Poky仓库
+以下是从远程Poky仓库创建本地版本的操作步骤：
+
+1. ***设定目录***: 切换到你希望创建本地Poky仓库的工作目录
+
+2. ***克隆仓库***: 
+```
+     $ git clone git://git.yoctoproject.org/poky
+     Cloning into 'poky'...
+     remote: Counting objects: 432160, done.
+     remote: Compressing objects: 100% (102056/102056), done.
+     remote: Total 432160 (delta 323116), reused 432037 (delta 323000)
+     Receiving objects: 100% (432160/432160), 153.81 MiB | 8.54 MiB/s, done.
+     Resolving deltas: 100% (323116/323116), done.
+     Checking connectivity... done.
+```                   
+除非你指定了开发分支或者标签名，Git默认克隆"master"分支，它是"master"分支最新开发改动的快照。关于如何check out一个开发分支或是如何使用标签名来check out本地分支，请阅读[2.4.2 切换Poky分支](#242-切换poky分支)和[2.4.3 根据Tag切换Tag分支](#243-根据tag切换tag分支)小节。
+
+本地仓库一旦创建，你可以跳转到那个目录，检查Git状态。如下示例的含义是，只有"master"分支在本地，默认地，check out的也是master分支。
+```
+     $ cd ~/poky
+     $ git status
+     On branch master
+     Your branch is up-to-date with 'origin/master'.
+     nothing to commit, working directory clean
+     $ git branch
+     * master
+```                    
+你本地的poky仓库和克隆时的上游poky仓库文件信息是一样的，当你工作在本地分支时，你可以定期的使用`git pull --rebase`命令确保与上游分支同步更新。
+
+### 2.4.2 切换Poky分支
+当克隆远程Poky分支时，你可以访问到所有开发分支。每一个开发分支都是从master分支fork而来，各不相同。为了阅读并利用这些文件，你需要指导分支名并且用`check out`命令获取。
+
+> **注释**  
+> 根据分支名获取到开发分支可以得到这个分支的快照，当你获取后其开发分支仍有可能有新的改动。
+
+1. ***切换到Poky目录***: 如果你有本地Poky仓库，切换到Poky目录。如果没有，阅读“克隆Poky仓库”章节
+
+2. ***查询分支名***:
+
+     $ git branch -a
+     * master
+       remotes/origin/1.1_M1
+       remotes/origin/1.1_M2
+       remotes/origin/1.1_M3
+       remotes/origin/1.1_M4
+       remotes/origin/1.2_M1
+       remotes/origin/1.2_M2
+       remotes/origin/1.2_M3
+           .
+           .
+           .
+       remotes/origin/pyro
+       remotes/origin/pyro-next
+       remotes/origin/rocko
+       remotes/origin/rocko-next
+       remotes/origin/sumo
+       remotes/origin/sumo-next
+       remotes/origin/thud
+       remotes/origin/thud-next
+       remotes/origin/warrior
+                    
+3. ***切换分支***: 切换到你想工作的开发分支
+```
+     $ git checkout -b warrior origin/warrior
+     Branch warrior set up to track remote branch warrior from origin.
+     Switched to a new branch 'warrior'
+```                    
+以上命令可以将远程warrior分支取到本地。
+
+以下指令可以显示你本地Poky仓库的分支。 *号表明正在工作的分支。
+```
+     $ git branch
+       master
+     * warrior
+```
+
+### 2.4.3 根据Tag切换Tag分支
+和分支类似，远程仓库会使用tag来标记一些特定的提交以表明其重要意义（发布或者即将发布）。你也许希望根据这些Tag创建本地分支,操作方法和切换分支类似。
+
+> **注释**  
+> 切换到Tag分支使你拥有一个不会被开发分支上的提交而改动文件。
+
+1. ***切换到Poky目录***: 如果有本地的Poky仓库，切换到Poky仓库，如果没有，请阅读“克隆Poky仓库”章节
+
+2. ***获取Tag名***: 
+```
+     $ git fetch --tags
+     $
+```
+
+3. ***列出Tag名***: 
+```
+     $ git tag
+     1.1_M1.final
+     1.1_M1.rc1
+     1.1_M1.rc2
+     1.1_M2.final
+     1.1_M2.rc1
+        .
+        .
+        .
+     yocto-2.5
+     yocto-2.5.1
+     yocto-2.5.2
+     yocto-2.5.3
+     yocto-2.6
+     yocto-2.6.1
+     yocto-2.6.2
+     yocto-2.7
+     yocto_1.5_M5.rc8
+```
+
+4. ***切换分支***:
+```
+     $ git checkout tags/yocto-2.7 -b my_yocto_2.7
+     Switched to a new branch 'my_yocto_2.7'
+     $ git branch
+       master
+     * my_yocto_2.7
+```
+                    
+这个命令基于上游poky仓库中拥有同样标签名的提交，创建并check out一个名为"my_yocto_2.7"的本地分支。在这个示例中，你本地拥有的是Yocto Project 2.7版本发布时名为"warrior"的开发分支快照。
