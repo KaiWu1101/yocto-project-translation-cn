@@ -74,3 +74,14 @@ Yocto的[OE构建系统](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-man
 > - 尽量使用来自供应商的BSP layer    
 > - 熟悉[Yocto Project curated layer index](https://caffelli-staging.yoctoproject.org/software-overview/layers/) 和[OpenEmbedded layer index](http://layers.openembedded.org/layerindex/branch/master/layers/)。 后者包含更多Layer，但并不是都经过了验证。    
 > - [Yocto Project Compatible](http://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#making-sure-your-layer-is-compatible-with-yocto-project) 简单来说就是让你的layer通过一个脚本测试，然后填写一个表格,之后yocto授权你使用Yocto project Compatible的Logo来推广你的产品.这个测试一般是作用在BSP layer。    
+
+为了说明分层(layers)是怎么把开发内容模块化的，可以参考对机器的自定义。这种类型的自定义配置通常都会被放在一个特定的层(通常是bsp层)，而不是放在一个通用的层里。此外，应将机器的定制与支持新GUI环境的配方和元数据分隔开来。比如，此时你有好几个layer,一个是关于机器配置的，一个是关于GUI环境的，你必须要理解的是，在bsp层里你还是可以为GUI层的配方添加机器相关的配置而不用污染GUI层。你可以通过bitbake追加文件(.bbappend)来做到这一点，这个章节的后面会介绍bbappend文件。
+
+> 关于BSP层结构的相关信息，请参考[Yocto项目BSP开发者手册](http://www.yoctoproject.org/docs/2.7/bsp-guide/bsp-guide.html)    
+
+通常，你刚克隆或者创建的源目录(就是你的poky目录)中就包含了一些常见的层和BSP层，源目录中以meta-开头的文件夹就是yocto项目自带的layer.当然你也可以克隆完poky后新建以meta-开头的文件夹来创建你自己的layer。
+
+> layer以meta-开头并不是强制性的要求，但这是yocto社区的共识。
+
+比如说如果你查看那poky仓库的[目录树](https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/)，你就能看到好几个layer的仓库: meta, meta-skeleton, meta-sefttest, meta-poky和meta-yocto-bsp。每一个仓库都代表了不同的layer。
+如果开发者想了解如果创建layer，参考Yocto项目开发任务手册的[理解和创建layer](http://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#understanding-and-creating-layers)章节。
