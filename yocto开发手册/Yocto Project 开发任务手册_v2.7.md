@@ -290,12 +290,12 @@ Yocto Project在[https://autobuilder.yocto.io//pub/nightly/](https://autobuilder
 5. ***下载Tar包***: 点击tar包，下载组件的快照。
 
 ## 2.4 克隆并切换到分支
-使用Yocto Project进行开发，你需要在本地用来开发的机器上，选择某个版本的Yocto Project发布并安装。本地安装的一系列文件，会如[Source Directory](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#source-directory)章节所介绍的结构一样，存放于你本地。
+使用Yocto Project进行开发，你需要在本地用来开发的机器上，选择某个版本的Yocto Project发布并安装。在Yocto Project中，把你本地安装的文件目录称为源目录[Source Directory](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#source-directory)（即poky目录）。
 
-创建Source Directory的推荐方式是，使用Git从上游poky仓库克隆一份本地拷贝，工作在上游仓库的克隆拷贝允许你修改Yocto Project代码的同时，向Yocto Project贡献你的代码，当然，你也可以仅仅工作在最新软件的开发分支上。因为Git可以访问到上有仓库的完整改动历史（开发分支或是标签），然后你在它的本地克隆上进行工作。
+创建Source Directory的推荐方式是，使用Git从上游poky仓库克隆一份本地拷贝，在上游仓库的克隆版本上进行开发，使得你能向Yocto Project贡献你的代码或者仅仅是确保你正在使用的是最新的yocto项目进行开发。因为Git可以访问到上游仓库的完整改动历史（开发分支或是标签）。
 
 ### 2.4.1 克隆Poky仓库
-以下是从远程Poky仓库创建本地版本的操作步骤：
+以下是从远程[Poky](http://www.yoctoproject.org/docs/2.7.2/ref-manual/ref-manual.html#poky)仓库创建本地版本的操作步骤：
 
 1. ***设定目录***: 切换到你希望创建本地Poky仓库的工作目录
 
@@ -310,9 +310,9 @@ Yocto Project在[https://autobuilder.yocto.io//pub/nightly/](https://autobuilder
      Resolving deltas: 100% (323116/323116), done.
      Checking connectivity... done.
 ```                   
-除非你指定了开发分支或者标签名，Git默认克隆"master"分支，它是"master"分支最新开发改动的快照。关于如何check out一个开发分支或是如何使用标签名来check out本地分支，请阅读[2.4.2 切换Poky分支](#242-切换poky分支)和[2.4.3 根据Tag切换Tag分支](#243-根据tag切换tag分支)小节。
+除非你指定了开发分支或者标签名，Git默认克隆"master"分支，它是"master"分支最新开发改动的快照。关于如何切换一个开发分支或是如何使用标签名来切换本地分支，请阅读[2.4.2 切换Poky分支](#242-切换poky分支)和[2.4.3 根据Tag切换Tag分支](#243-根据tag切换tag分支)小节。
 
-本地仓库一旦创建，你可以跳转到那个目录，检查Git状态。如下示例的含义是，只有"master"分支在本地，默认地，check out的也是master分支。
+本地仓库一旦创建，你可以跳转到那个目录，检查Git状态。如下示例的含义是，只有"master"分支在本地，默认地，切换的也是master分支。
 ```
      $ cd ~/poky
      $ git status
@@ -325,12 +325,12 @@ Yocto Project在[https://autobuilder.yocto.io//pub/nightly/](https://autobuilder
 你本地的poky仓库和克隆时的上游poky仓库文件信息是一样的，当你工作在本地分支时，你可以定期的使用`git pull --rebase`命令确保与上游分支同步更新。
 
 ### 2.4.2 切换Poky分支
-当克隆远程Poky分支时，你可以访问到所有开发分支。每一个开发分支都是从master分支fork而来，各不相同。为了阅读并利用这些文件，你需要指导分支名并且用`check out`命令获取。
+当克隆远程Poky分支时，你可以访问到所有开发分支。每一个开发分支都是从master分支fork而来，各不相同。为了阅读或者使用某个分支的一些文件，你需要知道分支的名字然后用`check out`命令切换到这个特定的开发分支。
 
 > **注释**  
-> 根据分支名获取到开发分支可以得到这个分支的快照，当你获取后其开发分支仍有可能有新的改动。
+> 根据分支名切换到一个活跃的开发分支可以得到这个分支此时的快照，但是当你切换到这个分支后它对应的上游分支仍有可能有新的改动。
 
-1. ***切换到Poky目录***: 如果你有本地Poky仓库，切换到Poky目录。如果没有，阅读“克隆Poky仓库”章节
+1. ***切换到Poky目录***: 如果你有本地Poky仓库，切换到Poky目录。如果没有，阅读[2.4.1 克隆Poky仓库](#241-%e5%85%8b%e9%9a%86poky%e4%bb%93%e5%ba%93)章节
 
 2. ***查询分支名***:
 
@@ -372,12 +372,12 @@ Yocto Project在[https://autobuilder.yocto.io//pub/nightly/](https://autobuilder
 ```
 
 ### 2.4.3 根据Tag切换Tag分支
-和分支类似，远程仓库会使用tag来标记一些特定的提交以表明其重要意义（发布或者即将发布）。你也许希望根据这些Tag创建本地分支,操作方法和切换分支类似。
+和分支类似，远程仓库会使用tag来标记一些特定的提交以表明其重要意义（发布或者即将发布）。根据需求，你可以用Tag名切换到这个特定的Tag分支，操作方法和[2.4.2 切换Poky分支](#242-%e5%88%87%e6%8d%a2poky%e5%88%86%e6%94%af)类似。
 
 > **注释**  
-> 切换到Tag分支使你拥有一个不会被开发分支上的提交而改动文件。
+> 基于Tag名切换的分支中的文件，不会被其他分支所影响。
 
-1. ***切换到Poky目录***: 如果有本地的Poky仓库，切换到Poky仓库，如果没有，请阅读“克隆Poky仓库”章节
+1. ***切换到Poky目录***: 如果有本地的Poky仓库，切换到Poky仓库，如果没有，请阅读[2.4.1 克隆Poky仓库](#241-%e5%85%8b%e9%9a%86poky%e4%bb%93%e5%ba%93)章节
 
 2. ***获取Tag名***: 
 ```
@@ -416,4 +416,4 @@ Yocto Project在[https://autobuilder.yocto.io//pub/nightly/](https://autobuilder
      * my_yocto_2.7
 ```
                     
-这个命令基于上游poky仓库中拥有同样标签名的提交，创建并check out一个名为"my_yocto_2.7"的本地分支。在这个示例中，你本地拥有的是Yocto Project 2.7版本发布时名为"warrior"的开发分支快照。
+第一条命令`git checkout tags/yocto-2.7 -b my_yocto_2.7`会创建并切换到一个名为"my_yocto_2.7"的本地分支。这个分支和上游仓库的yocto-2.7标签对应的提交(commit)一致。
