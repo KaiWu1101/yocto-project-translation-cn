@@ -85,3 +85,32 @@ Yocto的[OE构建系统](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-man
 
 比如说如果你查看那poky仓库的[目录树](https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/)，你就能看到好几个layer的仓库: meta, meta-skeleton, meta-sefttest, meta-poky和meta-yocto-bsp。每一个仓库都代表了不同的layer。
 如果开发者想了解如果创建layer，参考Yocto项目开发任务手册的[理解和创建layer](http://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#understanding-and-creating-layers)章节。
+
+## 2.3 组件和工具    
+yocto自带了很多开源的开发工具，这些工具和参考发行版poky以及OpenEmbedded构建系统是分开的（独立，不被poky或者OE包含).
+
+### 2.3.1    
+- [CROPS](https://git.yoctoproject.org/cgit/cgit.cgi/crops/about/)：使用了[Docker技术](https://www.docker.com/)的开源的跨平台yocto开发工具，简单来说就是如果你是windows，但是你要使用yocto开发的话，这东西用得着。本来就是使用linux的开发者应该不需要它。
+- devtool: 这个命令行工具是eSDK中很重要的一部分（原文是conerstone part),你可以使用devtool来帮助构建，测试和打包软件。你也能用它来选择你想集成到映像(image)中的软件和功能。devtool有一系列的子命令来让你添加，修改或者升级你的recipes. 当你用**devtool add**添加软件或者功能的时候，它会自动帮你生成一个recipe. 当你使用**devtool modify**的时候，指定的recipe(配方)会被用来决定从哪里得到源代码已经如何为之打补丁。这两种情况下，devtool都会为你设置一个环境，以确保在构建配方时使用的是在你控制下的源码树，以便于你可以根据需要对源码进行修改。
+默认情况下，新的配方文件和新的源代码都会存储在eSDK下的工作区。 **devtool upgrade**命令会更新旧的配方文件，这样你就能根据新的源代码和配方构建一个软件包。
+关于devtool 详情请阅读Yocto项目应用开发和可扩展软件开发工具包手册的[在SDK工作流程中使用devtool](http://www.yoctoproject.org/docs/2.7/sdk-manual/sdk-manual.html#using-devtool-in-your-sdk-workflow)这一章节    
+- 可扩展软件开发工具包(eSDK): eSDK提供了交叉开发的工具链和为具体镜像而裁剪的库。eSDK使得添加新的应用和库文件，修改源代码，在目标板上测试修改以及把其他部件集成到OE构建系统中这些操作变得更加容易。 eSDK为你提供了工具链，并且Yocto项目环境量身定制了功能强大的devtool指令集    
+[关于eSDK的更多信息可以参考Yocto项目应用开发和可扩展软件开发工具包手册](http://www.yoctoproject.org/docs/2.7/sdk-manual/sdk-manual.html)    
+
+Toaster: yocto项目构建系统的网页界面版本, 能让你配置，运行和查看构建信息。查看[Toaster用户手册](http://www.yoctoproject.org/docs/2.7/toaster-manual/toaster-manual.html)可以得到更多Toaster信息    
+
+
+### 2.3.2
+- Auto Upgrade Helper: 如果上游对应配方文件更新的话，这个工具配合[OE构建系统](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#build-system-term)(Bitbake和OE-Core)自动升级更新配方文件这个工具和bitbake一起能自动帮你升级从远端获取的recipes，我的理解是如过你的一些layer或者recipes是使用的别人的，或者厂家的，这个工具在他人更新这些layer或者recipes的时候帮你本地也自动升级。
+- Recipe Reporting System: 这个系统跟踪Yocto Project可用的配方版本，帮助你管理你的项目同时提供给你一个关于你项目的概述，简单的说是告诉你的使用的recipes是哪来的，哪些在继续更新，哪些版本能用。这个系统是基于[OE的层索引目录 OpenEmbedded Layer Index](http://layers.openembedded.org/layerindex/layers/)。OpenEmbedded Layer Index上索引了一些yocto的关键的layers.    
+- Patchwork: 开发者用来管理补丁的，让开发者更有效率的为yocto项目做更改。[Patchwork](http://jk.ozlabs.org/projects/patchwork/)这个项目由OzLabs发起](http://ozlabs.org/)    
+- AutoBuilder:这里翻译为自动构建者，用来做自动测试和QA(quality assurance)的。能定期的构建，运行测试用例，帮助开发者发现新引入的bug。Yocto社区也鼓励开发者提交测试计划和自动测试工具。
+> 这个工具基于[buildbot](https://buildbot.net/)。 
+
+- Cross-Prelink:没看太懂，估计也不会用到。好像是预链接的工具，通过库共享能减少构建的软件运行时需要的内存
+- Pseudo: 在构建的过程中可能会需要系统权限，这个工具能让你在构建的过程中作为非root用户暂时获得root权限，你能直接用这个工具，也能通过变量LD_PRELOAD来设置。后面会有解释。    
+
+### 2.3.3 OE构建系统组件    
+
+
+
