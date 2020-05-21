@@ -10,6 +10,6 @@ bitbake是一个执行工具，用来执行一些用bash或者python编写的任
     - OE:拥有一个可以高度控制并且质量得到保证的核心
     - Yocto: 在核心内拥有少数几个功能完整的工具而不是拥有多个不同的工具    
 
-共享元数据使得poky成为了基于OE-Core的一个集成层layer。你可以查看这个[图](https://www.yoctoproject.org/docs/2.7/overview-manual/overview-manual.html#yp-key-dev-elements)来理解他们之间的关系。Yocto项目包含了多个部分，比如说Bitbake, OE-Core, 脚本胶水(译者注:理解为连接欸哥哥脚本的一些配置文件)和关于Yocto构建系统的文件。
+共享元数据使得poky成为了基于OE-Core的一个集成层layer。你可以查看这个[图](https://www.yoctoproject.org/docs/2.7/overview-manual/overview-manual.html#yp-key-dev-elements)来理解他们之间的关系。Yocto项目包含了多个部分，比如说Bitbake, OE-Core, 脚本胶水(译者注:理解为连接脚本的一些配置文件)和关于Yocto构建系统的文件。
 
 
