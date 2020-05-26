@@ -91,7 +91,7 @@ yocto自带了很多开源的开发工具，这些工具和参考发行版poky�
 
 ### 2.3.1 开发工具       
 - **[CROPS](https://git.yoctoproject.org/cgit/cgit.cgi/crops/about/)**：使用了[Docker容器](https://www.docker.com/)技术的开源跨平台开发框架。CROPS提供一套易于管理且扩展性强的环境，帮助你在Windows，Linux和Mac OS X系统上构建目标代码。简单来说就是如果你是windows，但是你要使用yocto开发的话，这东西用得着。本来就是使用linux的开发者应该不需要它。
-- devtool: 这个命令行工具是eSDK中很重要的一部分（原文是conerstone part),你可以使用devtool来帮助构建，测试和打包软件。你也能用它来选择你想集成到映像(image)中的软件和功能。
+- **devtool**: 这个命令行工具是eSDK中很重要的一部分（原文是conerstone part),你可以使用devtool来帮助构建，测试和打包软件。你也能用它来选择你想集成到映像(image)中的软件和功能。
 
     _devtool_ 有一系列的子命令来让你添加，修改或者升级你的recipes. 当你用 _devtool add_ 添加软件或者功能的时候，它会自动帮你生成一个recipe. 当你使用 _devtool modify_ 的时候，指定的recipe(配方)会被用来决定从哪里得到源代码已经如何为之打补丁。这两种情况下，devtool都会为你设置一个环境，以确保在构建配方时使用的是在你控制下的源码树，以便于你可以根据需要对源码进行修改。默认情况下，新的配方文件和新的源代码都会存储在eSDK下的工作区。 _devtool upgrade_ 命令会更新旧的配方文件，这样你就能根据新的源代码和配方构建一个软件包。
 关于devtool 详情请阅读Yocto项目应用开发和可扩展软件开发工具包手册的[在SDK工作流程中使用devtool](http://www.yoctoproject.org/docs/2.7/sdk-manual/sdk-manual.html#using-devtool-in-your-sdk-workflow)这一章节    
@@ -110,7 +110,8 @@ yocto自带了很多开源的开发工具，这些工具和参考发行版poky�
 - **AutoBuilder**: Autobuilder用来做自动测试和QA(quality assurance)。每个人都可以利用公共的AutoBuilder查看Poky的master分支状态。
     
     Yocto Project的目标之一是创建一个能够进行自动测试和QA质量保证的开源项目。为了达到这个目标，Yocto Project鼓励开发社区发布QA和测试计划，公开演示QA和测试计划，也鼓励为开发社区提交自动化测试工具以及QA流程。
-> 这个工具基于[buildbot](https://buildbot.net/)。 
+    
+    > Autobuilder基于[buildbot](https://buildbot.net/)。 
 
 - **Cross-Prelink**:  相比较于运行时进行操作，预链接(preliking)是一个预先计算由动态链接器生成的加载地址和链接表的过程。这样做的好处是，提升应用程序启动性能，减少应用程序之间共享库文件的内存使用量。    
 
