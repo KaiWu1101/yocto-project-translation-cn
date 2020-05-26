@@ -74,3 +74,56 @@ Yocto的[OE构建系统](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-man
 > - 尽量使用来自供应商的BSP layer    
 > - 熟悉[Yocto Project curated layer index](https://caffelli-staging.yoctoproject.org/software-overview/layers/) 和[OpenEmbedded layer index](http://layers.openembedded.org/layerindex/branch/master/layers/)。 后者包含更多Layer，但并不是都经过了验证。    
 > - [Yocto Project Compatible](http://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#making-sure-your-layer-is-compatible-with-yocto-project) 简单来说就是让你的layer通过一个脚本测试，然后填写一个表格,之后yocto授权你使用Yocto project Compatible的Logo来推广你的产品.这个测试一般是作用在BSP layer。    
+
+为了说明分层(layers)是怎么把开发内容模块化的，可以参考对机器的自定义。这种类型的自定义配置通常都会被放在一个特定的层(通常是bsp层)，而不是放在一个通用的层里。此外，应将机器的定制与支持新GUI环境的配方和元数据分隔开来。比如，此时你有好几个layer,一个是关于机器配置的，一个是关于GUI环境的，你必须要理解的是，在bsp层里你还是可以为GUI层的配方添加机器相关的配置而不用污染GUI层。你可以通过bitbake追加文件(.bbappend)来做到这一点，这个章节的后面会介绍bbappend文件。
+
+> 关于BSP层结构的相关信息，请参考[Yocto项目BSP开发者手册](http://www.yoctoproject.org/docs/2.7/bsp-guide/bsp-guide.html)    
+
+通常，你刚克隆或者创建的源目录(就是你的poky目录)中就包含了一些常见的层和BSP层，源目录中以meta-开头的文件夹就是yocto项目自带的layer.当然你也可以克隆完poky后新建以meta-开头的文件夹来创建你自己的layer。
+
+> layer以meta-开头并不是强制性的要求，但这是yocto社区的共识。
+
+比如说如果你查看那poky仓库的[目录树](https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/)，你就能看到好几个layer的仓库: meta, meta-skeleton, meta-sefttest, meta-poky和meta-yocto-bsp。每一个仓库都代表了不同的layer。
+如果开发者想了解如果创建layer，参考Yocto项目开发任务手册的[理解和创建layer](http://www.yoctoproject.org/docs/2.7/dev-manual/dev-manual.html#understanding-and-creating-layers)章节。
+
+## 2.3 组件和工具    
+yocto自带了很多开源的开发工具，这些工具和参考发行版poky以及OpenEmbedded构建系统是分开的（独立，不被poky或者OE包含).
+
+### 2.3.1 开发工具       
+- **[CROPS](https://git.yoctoproject.org/cgit/cgit.cgi/crops/about/)**：使用了[Docker容器](https://www.docker.com/)技术的开源跨平台开发框架。CROPS提供一套易于管理且扩展性强的环境，帮助你在Windows，Linux和Mac OS X系统上构建目标代码。简单来说就是如果你是windows，但是你要使用yocto开发的话，这东西用得着。本来就是使用linux的开发者应该不需要它。
+- **devtool**: 这个命令行工具是eSDK中很重要的一部分（原文是conerstone part),你可以使用devtool来帮助构建，测试和打包软件。你也能用它来选择你想集成到映像(image)中的软件和功能。
+
+    _devtool_ 有一系列的子命令来让你添加，修改或者升级你的recipes. 当你用 _devtool add_ 添加软件或者功能的时候，它会自动帮你生成一个recipe. 当你使用 _devtool modify_ 的时候，指定的recipe(配方)会被用来决定从哪里得到源代码已经如何为之打补丁。这两种情况下，devtool都会为你设置一个环境，以确保在构建配方时使用的是在你控制下的源码树，以便于你可以根据需要对源码进行修改。默认情况下，新的配方文件和新的源代码都会存储在eSDK下的工作区。 _devtool upgrade_ 命令会更新旧的配方文件，这样你就能根据新的源代码和配方构建一个软件包。
+关于devtool 详情请阅读Yocto项目应用开发和可扩展软件开发工具包手册的[在SDK工作流程中使用devtool](http://www.yoctoproject.org/docs/2.7/sdk-manual/sdk-manual.html#using-devtool-in-your-sdk-workflow)这一章节    
+
+- **可扩展软件开发工具包(eSDK)**: eSDK提供了交叉开发的工具链和为具体镜像而裁剪的库。eSDK使得添加新的应用和库文件，修改源代码，在目标板上测试修改以及把其他部件集成到OE构建系统中这些操作变得更加容易。 借由为Yocto Project环境裁剪的一套功能强大的devtool指令集，eSDK可以为你提供更好的工具链体验    
+   
+    关于eSDK的更多信息可以参考[Yocto项目应用开发和可扩展软件开发工具包手册](http://www.yoctoproject.org/docs/2.7/sdk-manual/sdk-manual.html)    
+
+**Toaster**: yocto项目构建系统的网页界面版本, 能让你配置，运行和查看构建信息。查看[Toaster用户手册](http://www.yoctoproject.org/docs/2.7/toaster-manual/toaster-manual.html)可以得到更多Toaster信息    
+
+
+### 2.3.2 生产工具    
+- **Auto Upgrade Helper**: 如果上游对应配方文件更新的话，这个工具配合[OE构建系统](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#build-system-term)(Bitbake和OE-Core)自动升级更新配方文件,这个工具和bitbake一起能自动帮你升级从远端获取的recipes，我的理解是如过你的一些layer或者recipes是使用的别人的，或者厂家的，这个工具在他人更新这些layer或者recipes的时候帮你本地也自动升级。
+- **Recipe Reporting System**: 这个系统跟踪Yocto Project可用的配方版本，帮助你管理你的项目同时提供给你一个关于你项目的概述，简单的说是告诉你的使用的recipes是哪来的，哪些在继续更新，哪些版本能用。这个系统是基于[OE的层索引目录 OpenEmbedded Layer Index](http://layers.openembedded.org/layerindex/layers/)构建。OpenEmbedded Layer Index上索引了一些yocto的关键的layers.    
+- **Patchwork**: [Patchwork](http://jk.ozlabs.org/projects/patchwork/)这个项目由[OzLabs](http://ozlabs.org/)发起。Yocto Project使用Patchwork作为管理工具来管理补丁，让开发者更有效率地为项目做更改。        
+- **AutoBuilder**: Autobuilder用来做自动测试和QA(quality assurance)。每个人都可以利用公共的AutoBuilder查看Poky的master分支状态。
+    
+    Yocto Project的目标之一是创建一个能够进行自动测试和QA质量保证的开源项目。为了达到这个目标，Yocto Project鼓励开发社区发布QA和测试计划，公开演示QA和测试计划，也鼓励为开发社区提交自动化测试工具以及QA流程。
+    
+    > Autobuilder基于[buildbot](https://buildbot.net/)。 
+
+- **Cross-Prelink**:  相比较于运行时进行操作，预链接(preliking)是一个预先计算由动态链接器生成的加载地址和链接表的过程。这样做的好处是，提升应用程序启动性能，减少应用程序之间共享库文件的内存使用量。    
+
+    cross-prelink是由[Jakub Jelínek](http://people.redhat.com/jakub/prelink.pdf)设计的prelink的一个变体，prelink和cross-prelink在同一个仓库不同的两个分支。通过提供一个模拟运行时动态连接器(即glibc衍生的ld.so仿真)cross-prelink project扩展了prelink软件的能力，可以对sysroot环境进行预先链接。不仅如此，经过cross-prelink的软件也拥有在类sysroot环境中工作的能力。    
+
+    动态链接器根据一系列因素，例如映射地址，lib库使用情况，lib函数冲突等，进行标准的加载地址计算。prelink工具利用动态链接器的输入信息，决定那些可被动态链接和执行的ELF二进制文件的唯一加载地址(这些二进制文件就是指那些共享的库文件，就是决定*.so一类动态库文件的加载地址)。prelink工具根据预先计算的信息修改ELF二进制文件，这样做的好处是，重复利用COW（译者注：[COW写时复制](https://blog.csdn.net/u010712083/article/details/8963202)）内存页的共享lib库文件，提升加载能力，降低内存消耗。
+
+    由于依赖目标设备的动态链接器，prelink 项目仅仅支持在目标设备运行prelink，这导致开发跨平台系统时会产生诸多问题。cross-prelink添加了一个运行在（开发）主机上的综合动态加载器，允许不在目标系统上进行cross-prelinking。
+
+- **Pseudo**: 在构建的过程中可能会需要系统权限，这个工具能让你在构建的过程中作为非root用户暂时获得root权限，你能直接用这个工具，也能通过变量LD_PRELOAD来设置。详情可参考[fakeroot](http://man.he.net/man1/fakeroot)。    
+
+### 2.3.3 OE构建系统组件    
+
+
+
