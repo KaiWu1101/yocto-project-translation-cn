@@ -1,20 +1,23 @@
-- [Chapter 1 The Yocto Project 开发任务手册](#chapter-1-the-yocto-project-%e5%bc%80%e5%8f%91%e4%bb%bb%e5%8a%a1%e6%89%8b%e5%86%8c)
-  - [1.1 欢迎](#11-%e6%ac%a2%e8%bf%8e)
-  - [1.2 其他](#12-%e5%85%b6%e4%bb%96)
-- [Chapter 2. 环境搭建](#chapter-2-%e7%8e%af%e5%a2%83%e6%90%ad%e5%bb%ba)
-  - [2.1 新建团队开发环境](#21-%e6%96%b0%e5%bb%ba%e5%9b%a2%e9%98%9f%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83)
-  - [2.2 准备构建主机](#22-%e5%87%86%e5%a4%87%e6%9e%84%e5%bb%ba%e4%b8%bb%e6%9c%ba)
-    - [2.2.1 准备原生Linux主机](#221-%e5%87%86%e5%a4%87%e5%8e%9f%e7%94%9flinux%e4%b8%bb%e6%9c%ba)
-    - [2.2.2 使用CROss PlatformS (CROPS)](#222-%e4%bd%bf%e7%94%a8cross-platforms-crops)
-  - [2.3 定位Yocto Project源文件](#23-%e5%ae%9a%e4%bd%8dyocto-project%e6%ba%90%e6%96%87%e4%bb%b6)
-    - [2.3.1 访问代码仓库](#231-%e8%ae%bf%e9%97%ae%e4%bb%a3%e7%a0%81%e4%bb%93%e5%ba%93)
-    - [2.3.2 访问发布索引](#232-%e8%ae%bf%e9%97%ae%e5%8f%91%e5%b8%83%e7%b4%a2%e5%bc%95)
-    - [2.3.3 使用下载页面](#233-%e4%bd%bf%e7%94%a8%e4%b8%8b%e8%bd%bd%e9%a1%b5%e9%9d%a2)
-    - [2.3.4 访问Nightly Builds（每日构建）](#234-%e8%ae%bf%e9%97%aenightly-builds%e6%af%8f%e6%97%a5%e6%9e%84%e5%bb%ba)
-  - [2.4 克隆并切换到分支](#24-%e5%85%8b%e9%9a%86%e5%b9%b6%e5%88%87%e6%8d%a2%e5%88%b0%e5%88%86%e6%94%af)
-    - [2.4.1 克隆Poky仓库](#241-%e5%85%8b%e9%9a%86poky%e4%bb%93%e5%ba%93)
-    - [2.4.2 切换Poky分支](#242-%e5%88%87%e6%8d%a2poky%e5%88%86%e6%94%af)
-    - [2.4.3 根据Tag切换Tag分支](#243-%e6%a0%b9%e6%8d%aetag%e5%88%87%e6%8d%a2tag%e5%88%86%e6%94%af)
+- [Chapter 1 The Yocto Project 开发任务手册](#chapter-1-the-yocto-project-开发任务手册)
+  - [1.1 欢迎](#11-欢迎)
+  - [1.2 其他](#12-其他)
+- [Chapter 2. 环境搭建](#chapter-2-环境搭建)
+  - [2.1 新建团队开发环境](#21-新建团队开发环境)
+  - [2.2 准备构建主机](#22-准备构建主机)
+    - [2.2.1 准备原生Linux主机](#221-准备原生linux主机)
+    - [2.2.2 使用CROss PlatformS (CROPS)](#222-使用cross-platforms-crops)
+  - [2.3 定位Yocto Project源文件](#23-定位yocto-project源文件)
+    - [2.3.1 访问代码仓库](#231-访问代码仓库)
+    - [2.3.2 访问发布索引](#232-访问发布索引)
+    - [2.3.3 使用下载页面](#233-使用下载页面)
+    - [2.3.4 访问Nightly Builds（每日构建）](#234-访问nightly-builds每日构建)
+  - [2.4 克隆并切换到分支](#24-克隆并切换到分支)
+    - [2.4.1 克隆Poky仓库](#241-克隆poky仓库)
+    - [2.4.2 切换Poky分支](#242-切换poky分支)
+    - [2.4.3 根据Tag切换Tag分支](#243-根据tag切换tag分支)
+- [Chapter 3. 常见任务](#chapter-3-常见任务)
+  - [3.1 理解并创建Layer](#31-理解并创建layer)
+    - [3.1.1 创建你自己的Layer](#311-创建你自己的layer)
 
 # Chapter 1 The Yocto Project 开发任务手册
 
@@ -417,3 +420,70 @@ Yocto Project在[https://autobuilder.yocto.io//pub/nightly/](https://autobuilder
 ```
                     
 第一条命令`git checkout tags/yocto-2.7 -b my_yocto_2.7`会创建并切换到一个名为"my_yocto_2.7"的本地分支。这个分支和上游仓库的yocto-2.7标签对应的提交(commit)一致。
+
+# Chapter 3. 常见任务
+本章将介绍在使用Yocto Project时，需要经常处理的任务，例如创建layer，新加软件包，扩展/定制化镜像，移植到新硬件等基础功能。
+
+## 3.1 理解并创建Layer
+OpenEmbedded（译者注：后文以OE代替）构建系统支持管理多个layer的[元数据（Metadata）](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#metadata)。Layer允许你将不同类型的自定义设置独立开来。请阅读《Yocto Project Overview and Concepts Manual》的["The Yocto Project Layer Model"](http://www.yoctoproject.org/docs/2.7/overview-manual/overview-manual.html#the-yocto-project-layer-model)章节以获取Layer Model的介绍信息。
+
+### 3.1.1 创建你自己的Layer
+使用OE构建系统来创建你自己的Layer是很容易的一件事，Yocto Project还提供了工具让你更加快速地创建Layer。为了让你更好地理解Layer这个概念，本节将一步步的展示如何创建Layer。请阅读《Yocto Project Board Support Package (BSP) Developer's Guide》的["Creating a New BSP Layer Using the bitbake-layers Script"](http://www.yoctoproject.org/docs/2.7/bsp-guide/bsp-guide.html#creating-a-new-bsp-layer-using-the-bitbake-layers-script)章节和本文档的"使用bitbake-layers脚本创建通用Layer"章节以了解更多Layer创建工具。
+
+参照以下步骤，在不使用工具地情况下来创建Layer:
+
+1. ***查看已有Layer***: 在创建一个新Layer之前，你需要确认下元数据并没有被包含于其他人创建的Layer中。你可以查看OE社区的[OpenEmbedded MEtadata Index](http://layers.openembedded.org/layerindex/layers/)中可以被用在Yocto Project里的Layer索引。你可以找到你想要的或是差不多的一个Layer。
+
+2. ***创建新目录***: 为你的Layer创建目录。创建Layer时，确保目录和Yocto Project代码目录(例如克隆下来的poky仓库)无关。
+
+     尽管没有强制要求，最好在目录名前加上"meta-"前缀，例如：
+     ```
+     meta-mylayer
+     meta-GUI_xyz
+     meta-mymachine
+     ```                        
+     除例外情况，Layer名方方式如下：
+     ```
+     meta-root_name
+     ```                        
+     遵守这样的命名规范，你就不会遇到因工具，模块或者变量默认你的Layer名是以"meta-"前缀开始而产生的困扰。相关配置文件示例在后续步骤中有所展示，不带"Meta-"前缀的Layer名会自动加上这个前缀赋值给配置中的几个变量。
+
+3. ***创建Layer配置文件***: 在新建的Layer文件夹中，你需要创建`conf/layer.conf`文件。最简单的方式是拷贝一份已有配置到你的Layer配置目录中，然后根据需要改动它。
+
+     Yocto Project代码仓库的`meta-yocto-bsp/conf/layer.conf`文件说明了其语法。你需要在你的配置文件中，将"yoctobsp"替换成一个唯一标识（例如Layer "meta-machinexyz"的名字"machinexyz"）：
+     ```
+     # We have a conf and classes directory, add to BBPATH
+     BBPATH .= ":${LAYERDIR}"
+
+     # We have recipes-* directories, add to BBFILES
+     BBFILES += "${LAYERDIR}/recipes-*/*/*.bb \
+                 ${LAYERDIR}/recipes-*/*/*.bbappend"
+
+     BBFILE_COLLECTIONS += "yoctobsp"
+     BBFILE_PATTERN_yoctobsp = "^${LAYERDIR}/"
+     BBFILE_PRIORITY_yoctobsp = "5"
+     LAYERVERSION_yoctobsp = "4"
+     LAYERSERIES_COMPAT_yoctobsp = "warrior"
+     ```                        
+     以下是Layer配置文件说明：
+
+   + [BBPATH](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#var-BBPATH): 将此Layer根目录添加到BitaBake搜索路径中。利用BBPATH变量，BitBake可以定位类文件（.bbclass），配置文件，和被include的文件。BitBake使用匹配BBPATH名字的第一个文件，这与给二进制文件使用的PATH变量类似。同样也推荐你为你的Layer中类文件和配置文件起一个唯一的名字。
+
+   + [BBFILES](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#var-BBFILES): 定义Layer中recipe的路径
+
+   + [BBFILE_COLLECTIONS](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#var-BBFILE_COLLECTIONS): 创建唯一标识符以给OE构建系统参照。此示例中，标识符"yoctobsp"代表"meta-yocto-bsp"Layer。
+
+   + [BBFILE_PATTERN](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#var-BBFILE_PATTERN): 解析时提供Layer目录
+
+   + [BBFILE_PRIORITY](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#var-BBFILE_PRIORITY): OE构建系统在不同Layer找到相同名字recipe时所参考的使用优先级
+
+   + [LAYERVERSION](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#var-LAYERVERSION): Layer的版本号。你可以通过LAYERDEPENDS变量指定使用特定版本号的Layer
+
+   + [LAYERSERIES_COMPAT](http://www.yoctoproject.org/docs/2.7/ref-manual/ref-manual.html#var-LAYERSERIES_COMPAT): Lists the Yocto Project releases for which the current version is compatible. This variable is a good way to indicate if your particular layer is current.列出当前版本兼容的Yocto Project释放版本。它可以表示Layer是否有效。
+
+4. ***添加内容***: 根据Layer类型添加内容。如果这个Layer支持某一设备，在`conf/machine/`目录下的文件中添加此设备的配置。如果这个Layer新增发行版本策略，就在`conf/distro/`下文件添加发行版本配置。如果这个Layer引入新的recipe，把recipe放入`recipes-*`前缀的子目录中。
+
+     > **注释**  
+     > 请参考《Yocto Project Board Support Package (BSP) Developer's Guide》以阅读更多关于遵从Yocto Project的Layer层级的解释
+
+5. ***（可选）测试兼容性***: 如果你希望获得许可，以便在你的Layer或使用了你的Layer的应用中使用Yocto Project Compatibility Logo，请阅读[3.1.3 确保你的Layer兼容Yocto Project](#313-确保你的layer兼容yocto-project)章节以获得更多信息。
