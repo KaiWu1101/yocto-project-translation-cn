@@ -73,8 +73,69 @@ $ git checkout tags/yocto-2.7.4 -b my-yocto-2.7.4
  Switched to a new branch 'my-yocto-2.7.4'
 ```
 上面的`git checkout`指令会创建一个名为`my-yocto-2.7.4`的分支，这个分支中的文件和yocto 2.7.4版本对应。    
-对于如何访问yocto项目相关仓库，如果你想了解更多信息的话，可以查看yocto项目开发任务手册的[定位yocto项目的源文件](http://www.yoctoproject.org/docs/2.7.4/dev-manual/dev-manual.html#locating-yocto-project-source-files)章节。
+对于如何访问yocto项目相关仓库，如果你想了解更多信息的话，可以查看yocto项目开发任务手册的[定位yocto项目的源文件](http://www.yoctoproject.org/docs/2.7.4/dev-manual/dev-manual.html#locating-yocto-project-source-files)章节。    
 
+# 构建你自己的镜像    
+使用如下步骤来构建你的镜像，这个构建过程会根据源码生成一个linux发行版，包括工具链。
+> 如果你的工作网络存在防火墙，并且没有设置代理的话，你可能在网络上获取源代码时会遇到一些问题(比如说下载失败，或者git出错)。    
+> 如果你不了解你的代理设置，可以咨询你当地的网络管理员。检查你的网络浏览器设置也是很重要的一个步骤。最后，你可以在Yocto项目的Wiki页面的**[“在代理网络下工作”](https://wiki.yoctoproject.org/wiki/Working_Behind_a_Network_Proxy)这个章节内了解更多这方面的信息。
+
+1. **初始化构建环境**: 在poky目录下，运行环境设置脚本[oe-init-build-env](http://www.yoctoproject.org/docs/2.7.4/ref-manual/ref-manual.html#structure-core-script)在你的构建主机上定义Yocto项目的构建环境。    
+```    
+     $ cd ~/poky    
+     $ source oe-init-build-env    
+     You had no conf/local.conf file. This configuration file has therefore been    
+     created for you with some default values. You may wish to edit it to, for    
+     example, select a different MACHINE (target hardware). See conf/local.conf    
+     for more information as common configuration options are commented.    
+
+     You had no conf/bblayers.conf file. This configuration file has therefore been    
+     created for you with some default values. To add additional metadata layers    
+     into your configuration please add entries to conf/bblayers.conf.    
+
+     The Yocto Project has extensive documentation about OE including a reference    
+     manual which can be found at:    
+         http://yoctoproject.org/documentation    
+
+     For more information about OpenEmbedded see their website:    
+         http://www.openembedded.org/    
+
+     ### Shell environment set up for builds. ###    
+
+     You can now run 'bitbake <target>'    
+
+     Common targets are:
+         core-image-minimal
+         core-image-sato
+         meta-toolchain
+         meta-ide-support
+
+     You can also run generated qemu images with a command like 'runqemu qemux86'    
+```    
+另外，这个脚本会创建[构建目录](http://www.yoctoproject.org/docs/2.7.4/ref-manual/ref-manual.html#build-directory)(build_xxxx),并且构建目录位于源目录(这里可以理解为克隆仓库后poky的根目录)之下。运行完这个脚本之后，你的工作目录会被切换到构建目录。构建结束以后，构建目录下就包含了构建过程中生成的各种文件。    
+> 译者注: 比如你的yocto目录是xxxx/poky/，你在运行了`source oe-init-build-env`之后，poky目录下就会生成一个build目录。
+
+2. **检查你的本地配置文件**: 当你设置好构建环境后，一个本地配置文件local.conf会出现在构建目录的子目录conf目录下(译者注: poky/build/conf或者poky/build_xxx/conf)。在这个例子中，默认设置是将qemux86作为构建目标的，构建生成的镜像可以在虚拟机内仿真。包管理工具设置为RPM。
+> Tip    
+> 你可以通过使用镜像文件来大幅度加速你的构建过程并且保证下载源码的顺利进行。如果你想使用镜像，把下面几行添加到你构建目录中的本地配置文件中(poky/build/local.conf)。
+>  ``` 
+>  SSTATE_MIRRORS = "\
+>     file://.* http://sstate.yoctoproject.org/dev/PATH;downloadfilename=PATH \n \
+>     file://.* http://sstate.yoctoproject.org/2.6.4/PATH;downloadfilename=PATH \n \
+>     file://.* http://sstate.yoctoproject.org/2.7.4/PATH;downloadfilename=PATH \n \
+>     "
+> ```
+> 上述的几行代码展示了如何为Yocto 2.6.4, 2.7.4添加sstate路径。想查看sstate的完整索引，可以查看这里http://sstate.yoctoproject.org/. (译者注: 这里的sstate目录是增量构建的存储目录,如果添加了上述代码到local.conf中，可以理解为我们使用了预构建的文件，然后我们的本地构建系统在这个预构建的基础上继续进行构建，而不是从头开始构建，这样自然会减少很多的构建时间)。    
+
+3. **开始构建**: 接着，我们使用如下命令为目标硬件构建一个操作系统镜像(在本例中也就是core-image-sato)    
+>         ` $bitbake core-image-sato `
+对于如何使用bitbake命令，可以查看Yocto项目总览和概念手册的[**"Bitbake"**](http://www.yoctoproject.org/docs/2.7.4/overview-manual/overview-manual.html#usingpoky-components-bitbake)章节，或者你也可以查看Bitbake用户手册的[**"Bitbake Command"**](http://www.yoctoproject.org/docs/2.7.4/bitbake-user-manual/bitbake-user-manual.html#bitbake-user-manual-command)章节。    
+
+4. 使用QEMU运行镜像: 一旦目标镜像构建完成后，你可以启动QEMU了(Yocto项目随附的Quick Emulator)。
+>        ` $bitbake qemux86`    
+如果你想学习更多关于如何使用QEMU的信息，查看Yocto项目开发任务手册的[**"使用QEMU"**](http://www.yoctoproject.org/docs/2.7.4/dev-manual/dev-manual.html#dev-manual-qemu)章节。
+
+5. 离开QEQMU: 点击QEMU窗口的shutdown图标，或者在你调用QEMU的终端内输入Ctrl-C来终止QEMU。
 
 
 
